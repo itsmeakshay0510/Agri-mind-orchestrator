@@ -1,0 +1,49 @@
+{
+  "entities": {
+    "FieldReport": {
+      "title": "Field Report",
+      "description": "A report on crop health and satellite analysis for a specific field.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "cropType": { "type": "string" },
+        "healthStatus": { "type": "string", "enum": ["Healthy", "Stressed", "Diseased", "Unknown"] },
+        "analysisResult": { "type": "string" },
+        "imageUrl": { "type": "string" },
+        "location": {
+          "type": "object",
+          "properties": {
+            "lat": { "type": "number" },
+            "lng": { "type": "number" }
+          }
+        }
+      },
+      "required": ["userId", "timestamp", "cropType", "healthStatus"]
+    },
+    "CropHealthHistory": {
+      "title": "Crop Health History",
+      "description": "Historical data for crop health trends.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "fieldId": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "metricValue": { "type": "number" },
+        "metricType": { "type": "string", "enum": ["NDVI", "Moisture", "Temperature"] }
+      },
+      "required": ["fieldId", "timestamp", "metricValue", "metricType"]
+    }
+  },
+  "firestore": {
+    "/fieldReports/{reportId}": {
+      "schema": "FieldReport",
+      "description": "Collection of field reports."
+    },
+    "/healthHistory/{historyId}": {
+      "schema": "CropHealthHistory",
+      "description": "Collection of historical health metrics."
+    }
+  }
+}
